@@ -28,6 +28,10 @@ public class ReservasService {
         return reservasRepository.checarStatus(idReserva);
     }
 
+    public void cancelarReserva(Integer idReserva){
+        reservasRepository.cancelarReserva(idReserva);
+    }
+
     public void efetuarReserva(ReservaClienteRecepcionistaQuartoDTO reserva) {
 
         boolean isQuartoDisponivel = reservasRepository.verificarDisponibilidadeQuarto(reserva.fk_Quarto_Numero(), reserva.Check_in(), reserva.Check_out());
@@ -42,6 +46,20 @@ public class ReservasService {
 
         reservasRepository.efetuarReserva(reserva.id_reserva(), reserva.fk_Cliente_fk_Pessoa_CPF(), reserva.fk_Recepcionista_fk_Funcionario_Id_Funcionario(), reserva.fk_Quarto_Numero(), reserva.Check_in(), reserva.Check_out());
         pagamentoRepository.gerarPagamento(reserva.id_reserva(), diferencaEmDias, reserva.fk_Quarto_Numero());
+    }
+
+    public void atualizarReserva(int idReserva ,ReservaClienteRecepcionistaQuartoDTO reserva) {
+
+        boolean isQuartoDisponivel = reservasRepository.verificarDisponibilidadeQuarto(reserva.fk_Quarto_Numero(), reserva.Check_in(), reserva.Check_out());
+
+        if (!isQuartoDisponivel) {
+            throw new RuntimeException("Quarto não disponível para as novas datas.");
+        }
+
+        reservasRepository.atualizarReserva(idReserva,
+                reserva.Check_in(),
+                reserva.Check_out(),
+                reserva.fk_Quarto_Numero());
     }
 
 }

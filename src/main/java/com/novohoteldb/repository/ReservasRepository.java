@@ -14,20 +14,34 @@ public class ReservasRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     public List<Map<String, Object>> listarReservas() {
         String sql = "select * from ReservaClienteRecepcionistaQuarto";
         return jdbcTemplate.queryForList(sql);
     }
 
     public Map<String, Object> checarStatus(Integer idReserva) {
-        String sql = "select r.id_reserva, p.Status "+
-                "from reservaclienterecepcionistaquarto r "+
+        String sql = "select r.id_reserva, p.Status " +
+                "from reservaclienterecepcionistaquarto r " +
                 "join pagamento p on p.fk_ReservaClienteRecepcionistaQuarto_id_reserva = r.id_reserva " +
                 " where r.id_reserva = ?";
         return jdbcTemplate.queryForMap(sql, idReserva);
     }
 
-    public void efetuarReserva(int idReserva ,String cpfCliente, int recepcionistaId, int numeroQuarto, String dataCheckin, String dataCheckout) {
+    public void cancelarReserva(Integer idReserva) {
+
+        String sqlPagamento = "DELETE FROM pagamento WHERE fk_ReservaClienteRecepcionistaQuarto_id_reserva = ?";
+        jdbcTemplate.update(sqlPagamento, idReserva);
+
+        String sql = "DELETE FROM reservaclienterecepcionistaquarto WHERE id_reserva = ?";
+        int resultado = jdbcTemplate.update(sql, idReserva);
+
+        if (resultado <= 0) {
+            throw new RuntimeException("Erro ao deletar a reserva com ID: " + idReserva);
+        }
+    }
+
+    public void efetuarReserva(int idReserva, String cpfCliente, int recepcionistaId, int numeroQuarto, String dataCheckin, String dataCheckout) {
         String sql = "INSERT INTO reservaclienterecepcionistaquarto (id_reserva ,fk_Cliente_fk_Pessoa_CPF, fk_Recepcionista_fk_Funcionario_Id_Funcionario, fk_Quarto_Numero, check_in, check_out) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -55,6 +69,22 @@ public class ReservasRepository {
         );
 
         return count == 0;
+    }
+
+    public void atualizarReserva(Integer idReserva, String novoCheckIn, String novoCheckOut, Integer novoNumeroQuarto) {
+        String sql = "UPDATE reservaclienterecepcionistaquarto " +
+                "SET check_in = ?, check_out = ?, fk_Quarto_Numero = ? " +
+                "WHERE id_reserva = ?";
+
+        int resultado = jdbcTemplate.update(sql,
+                Date.valueOf(novoCheckIn),
+                Date.valueOf(novoCheckOut),
+                novoNumeroQuarto,
+                idReserva);
+
+        if (resultado <= 0) {
+            throw new RuntimeException("Erro ao atualizar a reserva com ID: " + idReserva);
+        }
     }
 
 }
