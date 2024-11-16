@@ -26,6 +26,16 @@ public class ReservasController {
         return reservasService.checarStatus(idReserva);
     }
 
+    @DeleteMapping("/cancelar/{idReserva}")
+    public ResponseEntity<String> cancelarReserva(@PathVariable Integer idReserva) {
+        try {
+            reservasService.cancelarReserva(idReserva);
+            return ResponseEntity.status(200).body("Reserva cancelada com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/efetuar")
     public ResponseEntity<String> efetuarReserva(@RequestBody ReservaClienteRecepcionistaQuartoDTO reserva) {
         try {
@@ -36,6 +46,10 @@ public class ReservasController {
         }
     }
 
-
+    @PutMapping("/atualizar/{idReserva}")
+    public ResponseEntity atualizarReserva(@PathVariable Integer idReserva, @RequestBody ReservaClienteRecepcionistaQuartoDTO reserva) {
+        reservasService.atualizarReserva(idReserva,reserva);
+        return ResponseEntity.status(200).body("Reserva atualizada com sucesso.");
+    }
 
 }
