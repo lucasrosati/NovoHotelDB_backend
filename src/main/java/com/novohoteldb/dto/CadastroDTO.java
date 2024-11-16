@@ -5,6 +5,7 @@ public record CadastroDTO(
         String nome,
         String email,
         String telefone1,
-        String telefone2
+        String telefone2,
+        Integer fk_Endereco_PK
 ) {
 }
