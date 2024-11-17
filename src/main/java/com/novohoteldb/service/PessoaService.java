@@ -1,6 +1,7 @@
 package com.novohoteldb.service;
 
 import com.novohoteldb.dto.CadastroDTO;
+import com.novohoteldb.dto.EnderecoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,10 @@ public class PessoaService {
         pessoaRepository.cadastrarPessoa(cadastro);
         return ResponseEntity.status(200).body("Pessoa cadastrada com sucesso!");
     }
+
+    public ResponseEntity cadastrarEndereco(String cpf ,EnderecoDTO endereco) {
+        pessoaRepository.cadastrarEndereco(cpf, endereco);
+        return ResponseEntity.status(200).body("Endereco cadastrada com sucesso!");
+    }
+
 }
