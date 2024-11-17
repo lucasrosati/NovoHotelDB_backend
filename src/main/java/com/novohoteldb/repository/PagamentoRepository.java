@@ -38,4 +38,41 @@ public class PagamentoRepository {
         }
 
     }
+
+    public void confirmarPagamento(int pagamentoPK){
+
+        String sql = "UPDATE pagamento SET Status = ? WHERE Pagamento_PK = ?";
+
+        String pagamento = "Select p.Status from pagamento p where Pagamento_PK = ?";
+        String status = jdbcTemplate.queryForObject(pagamento, String.class, pagamentoPK);
+
+        int idreserva = jdbcTemplate.queryForObject("SELECT p.fk_ReservaClienteRecepcionistaQuarto_id_reserva FROM pagamento p where pagamento_pk = ?", Integer.class, pagamentoPK);
+        float valor = jdbcTemplate.queryForObject("SELECT p.Valor FROM pagamento p where pagamento_pk = ?", Float.class, pagamentoPK);
+
+
+        if (status.equalsIgnoreCase("Pago")){
+            throw new RuntimeException("Pago já confirmado");
+        }
+
+        int resultado = jdbcTemplate.update(sql, "Pago", pagamentoPK);
+
+        if (resultado <= 0) {
+            throw new RuntimeException("Erro ao gerar pagamento.");
+        }
+
+        this.gerarNota(pagamentoPK, idreserva, valor);
+
+
+    }
+
+    public void gerarNota(int IdPagamento, int IdReserva, float Valor){
+        String sql = "INSERT INTO nota(Codigo, Valor, CNPJ_Hotel, fk_ReservaClienteRecepcionistaQuarto_id_reserva) VALUES (?, ?, ?, ?)";
+        String codigo = Integer.toString(IdPagamento*4567);
+        int resultado = jdbcTemplate.update(sql,codigo, Valor, "123456", IdReserva);
+
+        if (resultado <= 0) {
+            throw new RuntimeException("Erro ao gerar nota.");
+        }
+
+    }
 }

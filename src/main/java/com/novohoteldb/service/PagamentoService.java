@@ -20,4 +20,8 @@ public class PagamentoService {
         return pagamentoRepository.checarPagamento(id_reserva);
     }
 
+    public void confirmarPagamento(Integer id_reserva){
+        pagamentoRepository.confirmarPagamento(id_reserva);
+    }
+
 }
