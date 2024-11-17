@@ -14,13 +14,14 @@ import java.util.Map;
 public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
+
     @GetMapping
-    public List<Map<String,Object>> listarPessoas(){
+    public List<Map<String, Object>> listarPessoas() {
         return pessoaService.listarPessoas();
     }
 
     @GetMapping("/{cpf}")
-    public Map<String,Object> listarPessoasPorCpf(@PathVariable String cpf) {
+    public Map<String, Object> listarPessoasPorCpf(@PathVariable String cpf) {
         return pessoaService.listarPessoasPorCpf(cpf);
     }
 
