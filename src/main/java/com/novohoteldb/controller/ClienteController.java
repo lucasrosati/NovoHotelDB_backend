@@ -2,6 +2,7 @@ package com.novohoteldb.controller;
 
 import com.novohoteldb.dto.CadastroDTO;
 import com.novohoteldb.dto.EnderecoDTO;
+import com.novohoteldb.dto.PagamentoDTO;
 import com.novohoteldb.dto.ReservaClienteRecepcionistaQuartoDTO;
 import com.novohoteldb.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class ClienteController {
     public ResponseEntity atualizarEndereco(@PathVariable String cpf, @RequestBody EnderecoDTO endereco) {
         clienteService.atualizarEndereco(cpf, endereco);
         return ResponseEntity.status(200).body("Endereço atualizado com sucesso.");
+    }
+
+    @PostMapping("/cadastro/pagamento")
+    public ResponseEntity cadastrarPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+        clienteService.cadastrarPagamento(pagamentoDTO);
+        return ResponseEntity.status(200).body("Pagamento cadastrado com sucesso.");
     }
 
 }

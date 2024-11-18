@@ -30,10 +30,11 @@ public class PessoaRepository {
     }
 
     public void cadastrarEndereco(String cpf ,EnderecoDTO endereco) {
-        String sql = "INSERT INTO ENDERECO(Endereco_PK, Rua, Numero, Bairro, Cep, fk_Pessoa_Cpf) values(?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, endereco.Endereco_PK(), endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), endereco.fk_Pessoa_CPF());
+        String sql = "INSERT INTO ENDERECO(Rua, Numero, Bairro, Cep, fk_Pessoa_Cpf) values(?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), endereco.fk_Pessoa_CPF());
         String updatePessoa = "UPDATE PESSOA SET fk_Endereco_PK = ? WHERE CPF = ?";
-        jdbcTemplate.update(updatePessoa, endereco.Endereco_PK(), cpf);
+        int id_endereco = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        jdbcTemplate.update(updatePessoa, id_endereco, cpf);
     }
 
 }

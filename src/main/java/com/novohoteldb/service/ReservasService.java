@@ -40,12 +40,7 @@ public class ReservasService {
             throw new RuntimeException("Quarto não disponível para as datas selecionadas.");
         }
 
-        LocalDate dataInicio = LocalDate.parse(reserva.Check_in());
-        LocalDate dataFim = LocalDate.parse(reserva.Check_out());
-        long diferencaEmDias = ChronoUnit.DAYS.between(dataInicio, dataFim);
-
-        reservasRepository.efetuarReserva(reserva.id_reserva(), reserva.fk_Cliente_fk_Pessoa_CPF(), reserva.fk_Recepcionista_fk_Funcionario_Id_Funcionario(), reserva.fk_Quarto_Numero(), reserva.Check_in(), reserva.Check_out());
-        pagamentoRepository.gerarPagamento(reserva.id_reserva(), diferencaEmDias, reserva.fk_Quarto_Numero());
+        reservasRepository.efetuarReserva(reserva.fk_Cliente_fk_Pessoa_CPF(), reserva.fk_Recepcionista_fk_Funcionario_Id_Funcionario(), reserva.fk_Quarto_Numero(), reserva.Check_in(), reserva.Check_out());
     }
 
     public void atualizarReserva(int idReserva ,ReservaClienteRecepcionistaQuartoDTO reserva) {

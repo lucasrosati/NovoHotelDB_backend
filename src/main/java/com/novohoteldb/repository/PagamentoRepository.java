@@ -24,14 +24,14 @@ public class PagamentoRepository {
     }
 
     public void gerarPagamento(Integer id_reserva, long dias, Integer numQuarto) {
-        String sql = "INSERT INTO pagamento (Pagamento_PK, Status, Data, Valor, fk_ReservaClienteRecepcionistaQuarto_id_reserva)" +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pagamento (Status, Data, Valor, fk_ReservaClienteRecepcionistaQuarto_id_reserva)" +
+                "VALUES (?, ?, ?, ?)";
 
         String consulta_quarto = "SELECT q.Diaria FROM quarto q WHERE q.NUMERO = ?";
 
         int valorQuarto = jdbcTemplate.queryForObject(consulta_quarto, Integer.class, numQuarto);
 
-        int resultado = jdbcTemplate.update(sql,id_reserva, "Pendente", Date.valueOf(LocalDate.now()), (valorQuarto * dias), id_reserva);
+        int resultado = jdbcTemplate.update(sql, "Pendente", Date.valueOf(LocalDate.now()), (valorQuarto * dias), id_reserva);
 
         if (resultado <= 0) {
             throw new RuntimeException("Erro ao gerar pagamento.");

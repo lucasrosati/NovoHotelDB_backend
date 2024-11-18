@@ -30,4 +30,9 @@ public class QuartosRepository {
 
     }
 
+    public void liberarQuarto(String numeroQuarto) {
+        String sql = "UPDATE QUARTO SET STATUS = 0 WHERE Numero = ?";
+        jdbcTemplate.update(sql, numeroQuarto);
+    }
+
 }

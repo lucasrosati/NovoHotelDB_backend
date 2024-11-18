@@ -3,9 +3,11 @@ package com.novohoteldb.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import com.novohoteldb.repository.PagamentoRepository;
 
 import java.time.LocalDate;
 import java.sql.Date;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,11 @@ public class ReservasRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private PagamentoRepository pagamentoRepository;
+
+    public ReservasRepository(PagamentoRepository pagamentoRepository) {
+        this.pagamentoRepository = pagamentoRepository;
+    }
 
     public List<Map<String, Object>> listarReservas() {
         String sql = "select * from ReservaClienteRecepcionistaQuarto";
@@ -41,11 +48,22 @@ public class ReservasRepository {
         }
     }
 
-    public void efetuarReserva(int idReserva, String cpfCliente, int recepcionistaId, int numeroQuarto, String dataCheckin, String dataCheckout) {
-        String sql = "INSERT INTO reservaclienterecepcionistaquarto (id_reserva ,fk_Cliente_fk_Pessoa_CPF, fk_Recepcionista_fk_Funcionario_Id_Funcionario, fk_Quarto_Numero, check_in, check_out) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+    public void efetuarReserva(String cpfCliente, int recepcionistaId, int numeroQuarto, String dataCheckin, String dataCheckout) {
+        String sql = "INSERT INTO reservaclienterecepcionistaquarto (fk_Cliente_fk_Pessoa_CPF, fk_Recepcionista_fk_Funcionario_Id_Funcionario, fk_Quarto_Numero, check_in, check_out) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
-        int resultado = jdbcTemplate.update(sql, idReserva, cpfCliente, recepcionistaId, numeroQuarto, Date.valueOf(dataCheckin), Date.valueOf(dataCheckout));
+        int resultado = jdbcTemplate.update(sql, cpfCliente, recepcionistaId, numeroQuarto, Date.valueOf(dataCheckin), Date.valueOf(dataCheckout));
+
+        String sql2 = "UPDATE RECEPCIONISTA SET Checkins_Efetuados = Checkins_Efetuados + 1 WHERE fk_Funcionario_Id_Funcionario = ?";
+        jdbcTemplate.update(sql2, recepcionistaId);
+
+        LocalDate dataInicio = LocalDate.parse(dataCheckin);
+        LocalDate dataFim = LocalDate.parse(dataCheckout);
+        long diferencaEmDias = ChronoUnit.DAYS.between(dataInicio, dataFim);
+
+        int id_reserva = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+
+        pagamentoRepository.gerarPagamento(id_reserva, diferencaEmDias, numeroQuarto);
 
         if (resultado <= 0) {
             throw new RuntimeException("Erro ao efetuar a reserva.");

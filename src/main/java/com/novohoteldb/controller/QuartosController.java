@@ -2,10 +2,8 @@ package com.novohoteldb.controller;
 
 import com.novohoteldb.service.QuartosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +28,12 @@ public class QuartosController {
     @GetMapping("/reservas/{numero}")
     public List<Map<String, Object>> reservas(@PathVariable String numero) {
         return quartosService.verificarReservas(numero);
+    }
+
+    @PutMapping("/liberar/{numero}")
+    public ResponseEntity liberarQuarto(@PathVariable String numero) {
+        quartosService.liberarQuarto(numero);
+        return ResponseEntity.status(200).body("Quartos liberados com sucesso");
     }
 
 }
