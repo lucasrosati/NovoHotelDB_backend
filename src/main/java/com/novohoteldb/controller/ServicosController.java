@@ -49,8 +49,8 @@ public class ServicosController {
         return ResponseEntity.status(200).body("Serviço cadastrado com sucesso");
     }
 
-    @GetMapping("/reservas/listar")
-    public List<Map<String, Object>> listarReservasEfetuadas(String id_funcionario){
+    @GetMapping("/reservas/listar/{id_funcionario}")
+    public List<Map<String, Object>> listarReservasEfetuadas(@PathVariable String id_funcionario){
         return servicosService.listarReservasEfetuadas(id_funcionario);
     }
 
