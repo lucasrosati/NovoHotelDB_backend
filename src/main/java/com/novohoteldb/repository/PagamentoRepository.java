@@ -25,7 +25,7 @@ public class PagamentoRepository {
 
     public void gerarPagamento(Integer id_reserva, long dias, Integer numQuarto) {
         String sql = "INSERT INTO pagamento (Status, Data, Valor, fk_ReservaClienteRecepcionistaQuarto_id_reserva)" +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?)";
 
         String consulta_quarto = "SELECT q.Diaria FROM quarto q WHERE q.NUMERO = ?";
 

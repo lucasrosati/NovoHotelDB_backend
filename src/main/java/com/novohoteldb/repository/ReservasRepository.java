@@ -64,7 +64,7 @@ public class ReservasRepository {
         int id_reserva = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
         pagamentoRepository.gerarPagamento(id_reserva, diferencaEmDias, numeroQuarto);
-    
+
         if (resultado <= 0) {
             throw new RuntimeException("Erro ao efetuar a reserva.");
         }
