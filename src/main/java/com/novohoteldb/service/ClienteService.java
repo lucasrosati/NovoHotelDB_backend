@@ -2,6 +2,7 @@ package com.novohoteldb.service;
 
 import com.novohoteldb.dto.CadastroDTO;
 import com.novohoteldb.dto.EnderecoDTO;
+import com.novohoteldb.dto.PagamentoDTO;
 import com.novohoteldb.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,11 @@ public class ClienteService {
     public ResponseEntity atualizarEndereco(String cpf, EnderecoDTO endereco) {
         clienteRepository.atualizarEndereco(cpf, endereco);
         return ResponseEntity.status(200).body("Endereço cadastrada com sucesso!");
+    }
+
+    public ResponseEntity cadastrarPagamento(PagamentoDTO pagamentoDTO){
+        clienteRepository.cadastrarPagamento(pagamentoDTO);
+        return ResponseEntity.status(200).body("Pagamento cadastrado com sucesso!");
     }
 
 }

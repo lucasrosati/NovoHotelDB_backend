@@ -18,6 +18,10 @@ public class ReservasRepository {
     private JdbcTemplate jdbcTemplate;
     private PagamentoRepository pagamentoRepository;
 
+    public ReservasRepository(PagamentoRepository pagamentoRepository) {
+        this.pagamentoRepository = pagamentoRepository;
+    }
+
     public List<Map<String, Object>> listarReservas() {
         String sql = "select * from ReservaClienteRecepcionistaQuarto";
         return jdbcTemplate.queryForList(sql);
@@ -60,7 +64,7 @@ public class ReservasRepository {
         int id_reserva = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
         pagamentoRepository.gerarPagamento(id_reserva, diferencaEmDias, numeroQuarto);
-
+    
         if (resultado <= 0) {
             throw new RuntimeException("Erro ao efetuar a reserva.");
         }

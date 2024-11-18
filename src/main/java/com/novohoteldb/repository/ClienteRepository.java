@@ -2,6 +2,7 @@ package com.novohoteldb.repository;
 
 import com.novohoteldb.dto.CadastroDTO;
 import com.novohoteldb.dto.EnderecoDTO;
+import com.novohoteldb.dto.PagamentoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -64,6 +65,11 @@ public class ClienteRepository {
     public void atualizarEndereco(String cpf, EnderecoDTO endereco) {
         String sql = "UPDATE ENDERECO SET Rua = ?, Numero = ?, Bairro = ?, Cep = ? WHERE fk_Pessoa_CPF = ?";
         jdbcTemplate.update(sql, endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), cpf);
+    }
+
+    public void cadastrarPagamento(PagamentoDTO pagamento) {
+        String sql = "INSERT INTO PAGAMENTO(fk_Cliente_fk_Pessoa_CPF, N_Cartao, CVV, Vencimento, Tipo_Cartao) values(?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, pagamento.cpf(), pagamento.numero(), pagamento.cvv(), pagamento.vencimento(), pagamento.tipo());
     }
 
 }

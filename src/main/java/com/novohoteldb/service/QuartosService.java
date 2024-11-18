@@ -2,6 +2,7 @@ package com.novohoteldb.service;
 
 import com.novohoteldb.repository.QuartosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public class QuartosService {
 
     public List<Map<String, Object>> verificarReservas(String numero){
         return quartosRepository.verificarReservas(numero);
+    }
+
+    public ResponseEntity liberarQuarto(String numero) {
+        quartosRepository.liberarQuarto(numero);
+        return ResponseEntity.status(200).body("Quarto: " + numero + " Liberado.");
     }
 
 }

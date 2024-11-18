@@ -47,7 +47,7 @@ public class FuncionarioRepository {
     public void cadastrarServicosGerais(CadastroDTO cadastro){
         String sql =  "INSERT into PESSOA(cpf,nome,email,telefone1,telefone2) values(?,?,?,?,?)";
         jdbcTemplate.update(sql,cadastro.cpf(),cadastro.nome(),cadastro.email(),cadastro.telefone1(),cadastro.telefone2());
-        String sql2 = "INSER INTO FUNCIONARIO(fk_Pessoa_CPF) VALUES (?)";
+        String sql2 = "INSERT INTO FUNCIONARIO(fk_Pessoa_CPF) VALUES (?)";
         jdbcTemplate.update(sql2, cadastro.cpf());
         int id_funcionario = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         String sql3 = "INSERT INTO SERVICOS_GERAIS(fk_Funcionario_Id_Funcionario) VALUES (?)";
@@ -57,7 +57,7 @@ public class FuncionarioRepository {
     public void cadastrarRecepcionista(CadastroDTO cadastro){
         String sql =  "INSERT into PESSOA(cpf,nome,email,telefone1,telefone2) values(?,?,?,?,?)";
         jdbcTemplate.update(sql,cadastro.cpf(),cadastro.nome(),cadastro.email(),cadastro.telefone1(),cadastro.telefone2());
-        String sql2 = "INSER INTO FUNCIONARIO(fk_Pessoa_CPF) VALUES (?)";
+        String sql2 = "INSERT INTO FUNCIONARIO(fk_Pessoa_CPF) VALUES (?)";
         jdbcTemplate.update(sql2, cadastro.cpf());
         int id_funcionario = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         String sql3 = "INSERT INTO RECEPCIONISTA(fk_Funcionario_Id_Funcionario, Checkins_Efetuados) VALUES (?, ?)";
