@@ -29,7 +29,7 @@ public class ClienteRepository {
     }
 
     public void cadastrarEndereco(String cpf , EnderecoDTO endereco) {
-        String sql = "INSERT INTO ENDERECO(Rua, Numero, Bairro, Cep, fk_Pessoa_Cpf) values(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ENDERECO(Rua, Numero, Bairro, Cep, fk_Pessoa_Cpf) values(?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), cpf);
         String updatePessoa = "UPDATE PESSOA SET fk_Endereco_PK = ? WHERE CPF = ?";
         int id_endereco = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
