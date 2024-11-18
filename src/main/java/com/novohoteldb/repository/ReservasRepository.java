@@ -42,10 +42,10 @@ public class ReservasRepository {
     }
 
     public void efetuarReserva(int idReserva, String cpfCliente, int recepcionistaId, int numeroQuarto, String dataCheckin, String dataCheckout) {
-        String sql = "INSERT INTO reservaclienterecepcionistaquarto (id_reserva ,fk_Cliente_fk_Pessoa_CPF, fk_Recepcionista_fk_Funcionario_Id_Funcionario, fk_Quarto_Numero, check_in, check_out) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reservaclienterecepcionistaquarto (fk_Cliente_fk_Pessoa_CPF, fk_Recepcionista_fk_Funcionario_Id_Funcionario, fk_Quarto_Numero, check_in, check_out) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
-        int resultado = jdbcTemplate.update(sql, idReserva, cpfCliente, recepcionistaId, numeroQuarto, Date.valueOf(dataCheckin), Date.valueOf(dataCheckout));
+        int resultado = jdbcTemplate.update(sql, cpfCliente, recepcionistaId, numeroQuarto, Date.valueOf(dataCheckin), Date.valueOf(dataCheckout));
 
         if (resultado <= 0) {
             throw new RuntimeException("Erro ao efetuar a reserva.");
