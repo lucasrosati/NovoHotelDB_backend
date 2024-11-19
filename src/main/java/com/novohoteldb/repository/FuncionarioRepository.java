@@ -67,7 +67,7 @@ public class FuncionarioRepository {
     }
 
     public void adicionarGerente(GerenteDTO gerente){
-        String sql = "INSERT INTO GERENTE(fk_Funcionario_Id_Funcionario, fk_Gerenciado_Id_Funcionario) VALUES(?, ?)";
+        String sql = "INSERT INTO GERENCIA(fk_Funcionario_Id_Funcionario, fk_Gerenciado_Id_Funcionario) VALUES(?, ?)";
         jdbcTemplate.update(sql, gerente.gerente_id(),gerente.gerenciado_id());
     }
 
