@@ -68,10 +68,11 @@ public class ServicosRepository {
     }
 
     public List<Map<String, Object>> listarReservasEfetuadas(String id_funcionario) {
-        return jdbcTemplate.queryForList("select p.Nome , r.Checkins_Efetuados \n" +
-                "from recepcionista r \n" +
-                "join funcionario f on r.fk_Funcionario_Id_Funcionario = f.Id_Funcionario \n" +
-                "join pessoa p on p.CPF = f.fk_Pessoa_CPF ");
+        return jdbcTemplate.queryForList("select p.Nome , r2.id_reserva, r2.fk_Quarto_Numero, r2.Check_In, r2.Check_Out \n" +
+                "from recepcionista r\n" +
+                "join funcionario f on r.fk_Funcionario_Id_Funcionario = f.Id_Funcionario\n" +
+                "join pessoa p on p.CPF = f.fk_Pessoa_CPF \n" +
+                "join reservaclienterecepcionistaquarto r2 on r2.fk_Recepcionista_fk_Funcionario_Id_Funcionario = r.fk_Funcionario_Id_Funcionario ");
     }
 
 }
