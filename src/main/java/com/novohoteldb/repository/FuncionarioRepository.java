@@ -2,6 +2,7 @@ package com.novohoteldb.repository;
 
 
 import com.novohoteldb.dto.CadastroDTO;
+import com.novohoteldb.dto.EnderecoDTO;
 import com.novohoteldb.dto.GerenteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -79,5 +80,17 @@ public class FuncionarioRepository {
                 "join pessoa p on p.CPF = f2.fk_Pessoa_CPF \n");
     }
 
-}
+    public void cadastrarEndereco(String cpf , EnderecoDTO endereco) {
+        String sql = "INSERT INTO ENDERECO(Rua, Numero, Bairro, Cep, fk_Pessoa_Cpf) values(?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), cpf);
+        String updatePessoa = "UPDATE PESSOA SET fk_Endereco_PK = ? WHERE CPF = ?";
+        int id_endereco = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        jdbcTemplate.update(updatePessoa, id_endereco, cpf);
+    }
 
+    public void atualizarEndereco(String cpf, EnderecoDTO endereco) {
+        String sql = "UPDATE ENDERECO SET Rua = ?, Numero = ?, Bairro = ?, Cep = ? WHERE fk_Pessoa_CPF = ?";
+        jdbcTemplate.update(sql, endereco.Rua(), endereco.Numero(), endereco.Bairro(), endereco.Cep(), cpf);
+    }
+
+}

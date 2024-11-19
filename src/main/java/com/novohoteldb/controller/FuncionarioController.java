@@ -8,8 +8,6 @@ import com.novohoteldb.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.novohoteldb.service.ClienteService;
-
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import java.util.Map;
 public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
-    private ClienteService clienteService;
 
     @GetMapping("/listar")
     public List<Map<String, Object>> listarFuncionarios() {
@@ -58,12 +55,12 @@ public class FuncionarioController {
 
     @PostMapping("/cadastro/endereco/{cpf}")
     public ResponseEntity cadastrarEndereco(@PathVariable String cpf, @RequestBody EnderecoDTO enderecoDTO) {
-        return ResponseEntity.status(200).body(clienteService.cadastrarEndereco(cpf, enderecoDTO));
+        return ResponseEntity.status(200).body(funcionarioService.cadastrarEndereco(cpf, enderecoDTO));
     }
 
     @PutMapping("/atualizar/endereco/{cpf}")
     public ResponseEntity atualizarEndereco(@PathVariable String cpf, @RequestBody EnderecoDTO endereco) {
-        clienteService.atualizarEndereco(cpf, endereco);
+        funcionarioService.atualizarEndereco(cpf, endereco);
         return ResponseEntity.status(200).body("Endereço atualizado com sucesso.");
     }
 
