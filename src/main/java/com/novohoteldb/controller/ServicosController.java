@@ -28,7 +28,7 @@ public class ServicosController {
     }
 
     @PostMapping("/limpeza/adicionar")
-    public ResponseEntity adicionarLimpeza(LimpezaDTO limpeza){
+    public ResponseEntity adicionarLimpeza(@RequestBody LimpezaDTO limpeza){
         servicosService.adicionarLimpeza(limpeza);
         return ResponseEntity.status(200).body("Limpeza adicionada com sucesso");
     }
@@ -44,7 +44,7 @@ public class ServicosController {
     }
 
     @GetMapping("/manutencao/adicionar")
-    public ResponseEntity adicionarManutencao(ManutencaoDTO manutencao){
+    public ResponseEntity adicionarManutencao(@RequestBody ManutencaoDTO manutencao){
         servicosService.adicionarManutencao(manutencao);
         return ResponseEntity.status(200).body("Serviço cadastrado com sucesso");
     }
