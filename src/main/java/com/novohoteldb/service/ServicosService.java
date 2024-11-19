@@ -33,7 +33,7 @@ public class ServicosService {
         return servicosRepository.listarManutencao();
     }
 
-    public Map<String, Object> consultarServico(String id_funcionario){
+    public List<Map<String, Object>> consultarServico(String id_funcionario){
         return servicosRepository.consultarServico(id_funcionario);
     }
 

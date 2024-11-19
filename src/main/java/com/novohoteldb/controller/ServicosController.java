@@ -39,11 +39,11 @@ public class ServicosController {
     }
 
     @GetMapping("/manutencao/{id_funcionario}")
-    public Map<String, Object> consultarServico(@PathVariable String id_funcionario){
+    public List<Map<String, Object>> consultarServico(@PathVariable String id_funcionario){
         return servicosService.consultarServico(id_funcionario);
     }
 
-    @GetMapping("/manutencao/adicionar")
+    @PostMapping("/manutencao/adicionar")
     public ResponseEntity adicionarManutencao(@RequestBody ManutencaoDTO manutencao){
         servicosService.adicionarManutencao(manutencao);
         return ResponseEntity.status(200).body("Serviço cadastrado com sucesso");

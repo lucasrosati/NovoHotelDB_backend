@@ -49,7 +49,7 @@ public class ServicosRepository {
                 "join pessoa p on f.fk_Pessoa_CPF = p.CPF ");
     }
 
-    public Map<String, Object> consultarServico(String id_funcionario) {
+    public List<Map<String, Object>> consultarServico(String id_funcionario) {
         String sql = "select p.Nome , f.Id_Funcionario , m.fk_Quarto_Numero \n" +
                 "from mantem m \n" +
                 "join servicos_gerais sg on sg.fk_Funcionario_Id_Funcionario = m.fk_Servicos_Gerais_fk_Funcionario_Id_Funcionario \n" +
@@ -57,7 +57,7 @@ public class ServicosRepository {
                 "join pessoa p on f.fk_Pessoa_CPF = p.CPF \n" +
                 "where f.Id_Funcionario = ?";
 
-        return jdbcTemplate.queryForMap(sql, id_funcionario);
+        return jdbcTemplate.queryForList(sql, id_funcionario);
     }
 
     public void adicionarManutencao(ManutencaoDTO manutencao) {
