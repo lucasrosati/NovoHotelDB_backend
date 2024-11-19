@@ -17,10 +17,10 @@ public class ClienteRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> listarClientes() {
-        return jdbcTemplate.queryForList("select *\n" +
-                "from cliente c \n" +
-                "join pessoa p ON c.fk_Pessoa_CPF = p.CPF \n" +
-                "join endereco e on e.Endereco_PK = p.fk_Endereco_PK ");
+        return jdbcTemplate.queryForList("select p.Nome , p.CPF , p.Email, p.TELEFONE1, p.TELEFONE2, e.Rua , e.Numero , e.Bairro , e.Cep \n" +
+                "from cliente c\n" +
+                "join pessoa p ON c.fk_Pessoa_CPF = p.CPF\n" +
+                "join endereco e on e.fk_Pessoa_CPF = c.fk_Pessoa_CPF ");
     }
 
     public void cadastrarCliente(CadastroDTO cadastro) {
