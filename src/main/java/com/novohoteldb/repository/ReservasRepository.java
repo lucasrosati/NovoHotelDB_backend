@@ -28,10 +28,10 @@ public class ReservasRepository {
     }
 
     public Map<String, Object> checarStatus(Integer idReserva) {
-        String sql = "select r.id_reserva, p.Status " +
-                "from reservaclienterecepcionistaquarto r " +
-                "join pagamento p on p.fk_ReservaClienteRecepcionistaQuarto_id_reserva = r.id_reserva " +
-                " where r.id_reserva = ?";
+        String sql = "select r.id_reserva, p.Status, r.fk_Quarto_Numero ,r.Check_In, r.Check_Out \n" +
+                "from reservaclienterecepcionistaquarto r\n" +
+                "join pagamento p on p.fk_ReservaClienteRecepcionistaQuarto_id_reserva = r.id_reserva\n" +
+                "where r.id_reserva = ?";
         return jdbcTemplate.queryForMap(sql, idReserva);
     }
 
