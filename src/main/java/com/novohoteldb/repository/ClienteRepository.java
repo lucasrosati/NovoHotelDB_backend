@@ -68,7 +68,7 @@ public class ClienteRepository {
     }
 
     public void cadastrarPagamento(PagamentoDTO pagamento) {
-        String sql = "INSERT INTO PAGAMENTO(fk_Cliente_fk_Pessoa_CPF, N_Cartao, CVV, Vencimento, Tipo_Cartao) values(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO dados_pagemento(fk_Cliente_fk_Pessoa_CPF, N_Cartao, CVV, Vencimento, Tipo_Cartao) values(?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, pagamento.cpf(), pagamento.numero(), pagamento.cvv(), pagamento.vencimento(), pagamento.tipo());
     }
 

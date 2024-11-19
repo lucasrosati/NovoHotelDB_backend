@@ -3,7 +3,7 @@ package com.novohoteldb.dto;
 public record PagamentoDTO (
         String cpf,
         String numero,
-        String cvv,
+        Integer cvv,
         String vencimento,
         String tipo
 ){
