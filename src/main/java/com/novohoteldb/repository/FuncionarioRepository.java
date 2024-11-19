@@ -2,6 +2,7 @@ package com.novohoteldb.repository;
 
 
 import com.novohoteldb.dto.CadastroDTO;
+import com.novohoteldb.dto.GerenteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -62,6 +63,20 @@ public class FuncionarioRepository {
         int id_funcionario = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         String sql3 = "INSERT INTO RECEPCIONISTA(fk_Funcionario_Id_Funcionario, Checkins_Efetuados) VALUES (?, ?)";
         jdbcTemplate.update(sql3, id_funcionario, 0);
+    }
+
+    public void adicionarGerente(GerenteDTO gerente){
+        String sql = "INSERT INTO GERENTE(fk_Funcionario_Id_Funcionario, fk_Gerenciado_Id_Funcionario) VALUES(?, ?)";
+        jdbcTemplate.update(sql, gerente.gerente_id(),gerente.gerenciado_id());
+    }
+
+    public List<Map<String, Object>> listarGerentes(){
+        return jdbcTemplate.queryForList("select f.Id_Funcionario AS ID_GERENTE, p2.Nome AS NOME_GERENTE,f2.Id_Funcionario AS ID_GERENCIADO, p.Nome AS NOME_GERENCIADO \n" +
+                "from gerencia g \n" +
+                "join funcionario f on g.fk_Funcionario_Id_Funcionario = f.Id_Funcionario\n" +
+                "join funcionario f2 on g.fk_Gerenciado_Id_Funcionario = f2.Id_Funcionario \n" +
+                "join pessoa p2 on p2.CPF = f.fk_Pessoa_CPF\n" +
+                "join pessoa p on p.CPF = f2.fk_Pessoa_CPF \n");
     }
 
 }

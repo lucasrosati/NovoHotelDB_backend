@@ -2,6 +2,7 @@ package com.novohoteldb.service;
 
 
 import com.novohoteldb.dto.CadastroDTO;
+import com.novohoteldb.dto.GerenteDTO;
 import com.novohoteldb.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,15 @@ public class FuncionarioService {
     public ResponseEntity cadastrarRecepcionista(CadastroDTO cadastro){
         funcionarioRepository.cadastrarRecepcionista(cadastro);
         return ResponseEntity.status(200).body("Recepcionista cadastrado com sucesso!");
+    }
+
+    public ResponseEntity adicionarGerente(GerenteDTO gerenteDTO){
+        funcionarioRepository.adicionarGerente(gerenteDTO);
+        return ResponseEntity.status(200).body("Gerente cadastrado com sucesso!");
+    }
+
+    public List<Map<String, Object>> listarGerentes() {
+        return funcionarioRepository.listarGerentes();
     }
 
 }

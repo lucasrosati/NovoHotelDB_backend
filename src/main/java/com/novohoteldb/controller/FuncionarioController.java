@@ -3,6 +3,7 @@ package com.novohoteldb.controller;
 
 import com.novohoteldb.dto.CadastroDTO;
 import com.novohoteldb.dto.EnderecoDTO;
+import com.novohoteldb.dto.GerenteDTO;
 import com.novohoteldb.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,17 @@ public class FuncionarioController {
     public ResponseEntity atualizarEndereco(@PathVariable String cpf, @RequestBody EnderecoDTO endereco) {
         clienteService.atualizarEndereco(cpf, endereco);
         return ResponseEntity.status(200).body("Endereço atualizado com sucesso.");
+    }
+
+    @PostMapping("/adicionar/gerente")
+    public ResponseEntity adicionarGerente(@RequestBody GerenteDTO gerenteDTO){
+        funcionarioService.adicionarGerente(gerenteDTO);
+        return ResponseEntity.status(200).body("Gerente adicionado com sucesso.");
+    }
+
+    @GetMapping("/listar/gerentes")
+    public List<Map<String, Object>> listarGerentes() {
+        return funcionarioService.listarGerentes();
     }
 
 }
