@@ -51,7 +51,7 @@ public class PagamentoRepository {
 
 
         if (status.equalsIgnoreCase("Pago")){
-            throw new RuntimeException("Pago já confirmado");
+            throw new RuntimeException("Pagamento já confirmado");
         }
 
         int resultado = jdbcTemplate.update(sql, "Pago", pagamentoPK);
