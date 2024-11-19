@@ -72,7 +72,8 @@ public class ServicosRepository {
                 "from recepcionista r\n" +
                 "join funcionario f on r.fk_Funcionario_Id_Funcionario = f.Id_Funcionario\n" +
                 "join pessoa p on p.CPF = f.fk_Pessoa_CPF \n" +
-                "join reservaclienterecepcionistaquarto r2 on r2.fk_Recepcionista_fk_Funcionario_Id_Funcionario = r.fk_Funcionario_Id_Funcionario ");
+                "join reservaclienterecepcionistaquarto r2 on r2.fk_Recepcionista_fk_Funcionario_Id_Funcionario = r.fk_Funcionario_Id_Funcionario "+
+                "WHERE fk_Recepcionista_fk_Funcionario_Id_Funcionario = ?;", id_funcionario);
     }
 
 }

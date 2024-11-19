@@ -66,10 +66,4 @@ public class FuncionarioController {
         return ResponseEntity.status(200).body("Endereço atualizado com sucesso.");
     }
 
-//    @PostMapping("/adicionar/gerente/{id_gerente}/{i")
-//    public ResponseEntity adicionarGerente(@PathVariable Integer id_funcionario) {
-//        clienteService.adicionarGerente(id_funcionario);
-//        return ResponseEntity.status(200).body("Gerente adicionado com sucesso.");
-//    }
-
 }
